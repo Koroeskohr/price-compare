@@ -87,9 +87,9 @@
       // Update the view if the change has been persisted
       if (res.ok) {
         $tableData[idx] = newItem;
+      } else {
+        $tableData = $tableData;
       }
-
-      $tableData = $tableData;
     } else {
       // Add a new price
       const res = await fetch('/prices', {
@@ -111,8 +111,9 @@
           prices: [...currentItem.prices, withDate]
         };
         $tableData[idx] = newItem;
+      } else {
+        $tableData = $tableData;
       }
-      $tableData = $tableData;
     }
   };
 
@@ -209,7 +210,9 @@
   tbody td {
     border: solid 1px #ddeeee;
     color: #333;
-    padding: 10px;
     text-shadow: 1px 1px 1px #fff;
+  }
+  tbody td:first-child {
+    padding: 10px;
   }
 </style>

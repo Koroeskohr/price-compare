@@ -1,10 +1,10 @@
 import type { Actions } from './$types';
 import { fail } from '@sveltejs/kit';
-import { sql } from '$lib/server/database';
 import { z } from 'zod';
 import { superValidate } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
 import storeRepository from '$lib/server/repositories/stores';
+import { logger } from '$lib/server/logger';
 
 const validators = {
   create: z.object({
@@ -34,6 +34,7 @@ export const actions = {
     const { name } = form.data;
 
     await storeRepository.create(name);
+    logger.info({ name }, 'Created store');
 
     return { form };
   },
@@ -46,5 +47,6 @@ export const actions = {
     }
 
     await storeRepository.del(String(id));
+    logger.info({ id }, 'Deleted store');
   }
 } satisfies Actions;

@@ -5,6 +5,7 @@ import { superValidate } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
 import productRepository from '$lib/server/repositories/products';
 import type { Product } from '$lib/models/product';
+import { logger } from '$lib/server/logger';
 
 const validators = {
   create: z.object({
@@ -34,6 +35,7 @@ export const actions = {
     const { name } = form.data;
 
     await productRepository.create(name);
+    logger.info({ name }, 'Created product');
 
     return { form };
   },
@@ -46,5 +48,6 @@ export const actions = {
     }
 
     await productRepository.del(String(id));
+    logger.info({ id }, 'Deleted product');
   }
 } satisfies Actions;

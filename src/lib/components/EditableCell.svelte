@@ -62,19 +62,25 @@
   {#if !isEditing}
     <!-- svelte-ignore a11y-click-events-have-key-events -->
     <!-- svelte-ignore a11y-no-static-element-interactions -->
-    <div class="fill cell" on:click={handleEdit}>
+    <div class="fill cell container" on:click={handleEdit}>
       {value}
     </div>
   {:else}
     <form on:submit|preventDefault={handleSubmit}>
       <input bind:this={inputElement} type="text" bind:value={_value} />
-      <button type="submit">✅</button>
-      <button on:click={handleCancel}>❌</button>
+      <div>
+        <button type="submit">✅</button>
+        <button on:click={handleCancel}>❌</button>
+      </div>
     </form>
   {/if}
 </div>
 
 <style>
+  .container {
+    padding: 10px;
+  }
+
   .fill {
     display: inline-block;
     height: 100%;
@@ -88,6 +94,13 @@
   form {
     display: flex;
     gap: 0.5rem;
+    outline: 1px solid #ddefef;
+  }
+
+  input {
+    width: 100%;
+    margin-right: -60px;
+    outline: none;
   }
 
   button {

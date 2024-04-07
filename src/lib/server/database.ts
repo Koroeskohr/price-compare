@@ -1,12 +1,15 @@
 import postgres from 'postgres';
 import { env } from '$env/dynamic/private';
+import { logger } from './logger';
 
 let sql: postgres.Sql<{}>;
 if (env.DATABASE_URL) {
+  logger.info('Running production sql');
   sql = postgres(env.DATABASE_URL, {
     database: env.DATABASE_NAME || 'pricecompare'
   });
 } else {
+  logger.info('Running development sql');
   sql = postgres({
     host: env.POSTGRES_HOST,
     database: env.POSTGRES_DB,
@@ -14,5 +17,7 @@ if (env.DATABASE_URL) {
     password: env.POSTGRES_PASSWORD
   });
 }
+
+logger.info('Connected to postgres');
 
 export { sql };

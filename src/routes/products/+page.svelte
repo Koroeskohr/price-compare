@@ -19,12 +19,13 @@
     <input
       name="name"
       type="text"
+      class="add_product"
       bind:value={$form.name}
       aria-invalid={$errors.name ? 'true' : undefined}
       {...$constraints.name}
     />
   </label>
-  <input type="submit" value="Add a product" />
+  <input type="submit" class="add_product_button" value="Add a product" />
 
   <dialog bind:this={dialogElement}>
     <form method="POST" action="?/delete" use:enhance>
@@ -39,7 +40,6 @@
   <ul>
     {#each data.products as product}
       <li>
-        <span>{product.name}</span>
         <form
           action="?/delete"
           method="post"
@@ -49,9 +49,30 @@
             cancel();
           }}
         >
-          <input type="submit" value="X" style="display: inline" />
+          <span>{product.name}</span>
+          <input type="submit" value="&times;" class="close_button" />
         </form>
       </li>
     {/each}
   </ul>
 </form>
+
+<style>
+  ul li {
+    margin-bottom: 0.5rem;
+  }
+  .close_button {
+    line-height: 0rem;
+    border: solid 0.5px black;
+    width: 1rem;
+    height: 1rem;
+    border-radius: 0.5rem;
+  }
+  .add_product {
+    border: solid 1px #555;
+  }
+  .add_product_button {
+    border: solid 1px black;
+    background-color: #eee;
+  }
+</style>
