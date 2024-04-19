@@ -14,10 +14,17 @@ if (env.DATABASE_URL) {
     host: env.POSTGRES_HOST,
     database: env.POSTGRES_DB,
     user: env.POSTGRES_USER,
-    password: env.POSTGRES_PASSWORD
+    password: env.POSTGRES_PASSWORD,
   });
 }
 
-logger.info('Connected to postgres');
+(async function() {
+  try {
+    await sql`SELECT 1`;
+    logger.info("Connected to postgres")
+  } catch (err) {
+    logger.error("Could not connect to Postgres")
+  }
+})()
 
 export { sql };
