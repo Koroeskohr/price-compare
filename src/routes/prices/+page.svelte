@@ -149,7 +149,6 @@
   const { headerRows, rows, tableAttrs, tableBodyAttrs } = table.createViewModel(columns);
 </script>
 
-<h1>Prices</h1>
 
 <div class="container">
   <table {...$tableAttrs}>
@@ -200,7 +199,7 @@
       sans-serif;
   }
   thead th {
-    background-color: #ddefef;
+    background-color: #b1d3d3;
     border: solid 1px #ddeeee;
     color: #336b6b;
     padding: 10px;
@@ -212,7 +211,11 @@
     color: #333;
     text-shadow: 1px 1px 1px #fff;
   }
+  tbody tr:nth-child(even) {
+    background-color: #ddeded;
+  }
   tbody td:first-child {
     padding: 10px;
+    font-size: 1rem;
   }
 </style>

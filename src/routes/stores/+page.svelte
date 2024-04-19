@@ -1,6 +1,7 @@
 <script lang="ts">
   import { superForm } from 'sveltekit-superforms';
   import { enhance as enhanceS } from '$app/forms';
+  import TrashCan from '$lib/components/TrashCan.svelte';
 
   export let data;
 
@@ -10,20 +11,51 @@
   const { form, constraints, errors, message, enhance } = superForm(data.form);
 </script>
 
-<h1>Add a store</h1>
 <form method="post" action="?/create" use:enhance>
   {#if $message}<h3>{$message}</h3>{/if}
-  <label>
-    Name
+
+  <div class="mb-8 flex md:max-w-96">
     <input
       name="name"
       type="text"
+      class="w-full rounded-l-md border-r-0 border-slate-300"
+      placeholder="Add a store"
       bind:value={$form.name}
       aria-invalid={$errors.name ? 'true' : undefined}
       {...$constraints.name}
     />
-  </label>
-  <input type="submit" value="Add a store" />
+    <button
+      type="submit"
+      class="rounded-r-md bg-green-500 px-6 py-2 font-bold text-white hover:bg-green-600"
+    >
+      Save
+    </button>
+  </div>
+
+  <ul class="flex w-full flex-col rounded-lg bg-slate-50 shadow md:w-1/2">
+    {#each data.stores as store}
+      <li class="border-b-2 px-4 py-2">
+        <form
+          action="?/delete"
+          method="post"
+          use:enhanceS={({ cancel }) => {
+            idToDelete = store.id;
+            dialogElement.show();
+            cancel();
+          }}
+          class="flex items-center justify-between"
+        >
+          <span>{store.name}</span>
+          <button
+            type="submit"
+            class="relative h-10 max-h-[40px] w-10 max-w-[40px] select-none rounded-lg text-center align-middle font-sans text-xs font-medium uppercase text-slate-500 transition-all disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+          >
+            <TrashCan />
+          </button>
+        </form>
+      </li>
+    {/each}
+  </ul>
 
   <dialog bind:this={dialogElement}>
     <form method="POST" action="?/delete" use:enhance>
@@ -33,24 +65,4 @@
       <button class="danger-button" on:click={() => dialogElement.close()}>Confirm</button>
     </form>
   </dialog>
-
-  <h1>Stores:</h1>
-  <ul>
-    {#each data.stores as store}
-      <li>
-        <span>{store.name}</span>
-        <form
-          action="?/delete"
-          method="post"
-          use:enhanceS={({ cancel }) => {
-            idToDelete = store.id;
-            dialogElement.show();
-            cancel();
-          }}
-        >
-          <input type="submit" value="X" style="display: inline" />
-        </form>
-      </li>
-    {/each}
-  </ul>
 </form>

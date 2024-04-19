@@ -33,7 +33,7 @@
       </button>
     </div>
 
-    <ul class="flex w-full md:w-1/2 flex-col rounded-lg bg-slate-50 shadow">
+    <ul class="flex w-full flex-col rounded-lg bg-slate-50 shadow md:w-1/2">
       {#each data.products as product}
         <li class="border-b-2 px-4 py-2">
           <form
@@ -44,7 +44,7 @@
               dialogElement.show();
               cancel();
             }}
-            class="flex justify-between items-center"
+            class="flex items-center justify-between"
           >
             <span>{product.name}</span>
             <button
@@ -67,23 +67,3 @@
     </dialog>
   </form>
 </div>
-
-<style>
-  /* ul li {
-    margin-bottom: 0.5rem;
-  }
-  .close_button {
-    line-height: 0rem;
-    border: solid 0.5px black;
-    width: 1rem;
-    height: 1rem;
-    border-radius: 0.5rem;
-  }
-  .add_product {
-    border: solid 1px #555;
-  }
-  .add_product_button {
-    border: solid 1px black;
-    background-color: #eee;
-  } */
-</style>
